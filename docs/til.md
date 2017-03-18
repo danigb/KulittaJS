@@ -28,10 +28,43 @@ switch (tree.type) {
 
 > Flow IDE is a lightweight package that provides IDE features for FlowType for Atom Editor. It's pretty lightweight and robust.
 
+#### 4. Parameterized types
+
+Bounded polymorphism: https://flowtype.org/blog/2015/03/12/Bounded-Polymorphism.html
+
+Initial attempt (doesn't work):
+
+```
+function clone<T>(obj: T) : T {
+  return Object.assign({}, obj)
+}
+```
+
+Better:
+```
+const clone = (p : MP) : MP => Object.assign({}, p)
+```
+
 ## Haskell (and fp)
 
 #### 1. Pattern matching + recursion
 
 The power duo!
+
+#### 2. Function signatures overview
+
+Trying to understand this: `> showDur :: (Show a) => (a,MP) -> String`
+
+Basic signtures:
+
+```
+name :: Param1 -> Param2 -> Param3 -> ReturnValue
+```
+
+With _higher order functions_ (parameterized):
+
+```
+map :: (a -> b) -> ([a] -> [b])
+```
 
 ## Kulitta

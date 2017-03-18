@@ -2,11 +2,11 @@
   "name": "PTGG",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/ptgg.js",
+  "main": "dist/kulitta.js",
   "module": "src/index.js",
   "scripts": {
     "flow": "flow test",
-    "build": "rollup -cm -n PTGG -f umd -i src/index.js -o dist/ptgg.js",
+    "build": "rollup -cm -n PTGG -f umd -i src/index.js -o dist/kulitta.js",
     "pretest": "flow test && npm run build",
     "test": "jest",
     "docs": "docco src/*"
