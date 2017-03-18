@@ -39,7 +39,11 @@ type Mode = 'Major' | 'Dorian' | 'Phrygian' | 'Lydian' | 'Mixolydian'
 // A default MP value is one measure long (in 4/4) in the key of C-major.
 export const defaultMP : MP = { dur: 1, mode: 'Major', key: 0, onset: 0, seqDur: 1 }
 
+// It is also useful to have tests for MP values and modifiers for them.
 export const isMaj = (param: MP) : boolean => param.mode === 'Major'
+export const isMin = (param: MP) : boolean => param.mode === 'Minor'
+
+// ## Modifiers
 
 // Modifier is a function to perform music parameter updtes
 type Modifier = (param: MP) => MP
@@ -70,3 +74,19 @@ export const ho = compose(h, q3)
 export const qo2 = compose(q, q2)
 export const qo3 = compose(q, q3)
 export const qo4 = compose(q, q4)
+
+// ## Rules
+
+import type { Rule } from './ptgg'
+import { newRule } from './ptgg'
+
+// The following alter Rules to do a duration test. Each has a
+// "rejection condition" that will be the condition for an ID rule.
+
+// The rejection condition in this case tests the left-hand-side
+// symbol's duration.
+
+export function toRelDuration (isValidDur: (dur: Dur) => boolean, rule: Rule<CType, MP>) : Rule<CType, MP> {
+  const { prob, symbol, fn } = rule
+  return newRule(prob, symbol, (param: MP) => fn(param))
+}

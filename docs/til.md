@@ -45,6 +45,53 @@ Better:
 const clone = (p : MP) : MP => Object.assign({}, p)
 ```
 
+#### 5. Import type
+
+https://flowtype.org/blog/2015/02/18/Import-Types.html
+
+#### 6. null annotation
+
+https://flowtype.org/docs/nullable-types.html#type-annotating-null
+
+```js
+function select(list: Array<T>) : ?T {
+  return null
+}
+```
+
+#### 7. This type is incompatible with the expected param type of some incompatible instantiation of
+
+Problematic code:
+
+```js
+export function updater<S,P> (rules: Array<Rule<S,P>>, rand: RandFn) { // : Updater<S,P> {
+  return function update<S,P> (sentence: Sentence<S,P>) : Sentence<S,P> {
+    let result : Sentence<S,P> = []
+    sentence.forEach((term: Term<S,P>) => {
+      switch(term.type) {
+        case 'NT':
+          const nt : NT<S,P> = term
+          const applied = applyRule(rules, nt.symbol, nt.param, rand)
+          break;
+      }
+    })
+    return result
+  }
+}
+```
+
+https://github.com/facebook/flow/issues/3386#issuecomment-279929684:
+
+> The problem is that type variables in a function signature (in this case, in the signature of makeGetter) are not in scope in the function body. So we cannot refer to the type T in inner function types, or in variable types in the body of makeGetter.
+
+http://sitr.us/2015/05/31/advanced-features-in-flow.html#existential-types
+
+
+
+```js
+import type Rule from './ptgg'
+```
+
 ## Haskell (and fp)
 
 #### 1. Pattern matching + recursion

@@ -29,20 +29,25 @@
 // See [music-grammar](music-grammar.html) to see how a Term<Chord, MusicParam>
 // can represent chord progressions
 
-                
-                                                      
-                                     
-                                                     
-                                                                              
-                                                                     
-                                 
+// A _Term_ can either be a non-terminal (NT) chord,
+                                                         
+// a let-in expression (Let) to capture repetition,
+                                                                                               
+// or a variable (Var) to indicate instances of a particular phrase
+                                                   
+
+                                              
 
 // The Term data structure has three constructors:
 // 1. NT - a nonterminal that has a symbol and a parameter.
-const NT =      (symbol   ) => (param   )             => ({ type: 'NT', symbol, param });
-
+const newNT =      (symbol   ) => (param   )             =>
+  ({ type: 'NT', symbol, param });
 // 2. Let - a means of capturing variable instantiation in a Term.
+const newLet =      (name        , value               , expr               ) =>
+  ({ type: 'Let', name, value, expr });
 // 3. Var - a variable
+const newVar =      (name        ) =>
+  ({ type: 'Var', name });
 
 // A Sentence is a list of Terms.
                                      
@@ -54,42 +59,73 @@ const NT =      (symbol   ) => (param   )             => ({ type: 'NT', symbol, 
 // righthand side is a function from a parameter to a Sentence.
                   
                                        
-                                                            
+                                                                  
 
 // A Rule constructor
-function Rule       (prob      , symbol   , fn              )               {
+function newRule       (prob      , symbol   , fn              )              {
   return { prob, symbol, fn }
 }
 
+// ## Generate terms
 
+// Our strategy for applying a PTGG generatively is to begin with a start symbol
+// and choose a rule randomly, but biased by the associated probability.
 
+// ### Random generator
 
+                          
+
+// The most basic random generator
+const random          = () => Math.random();
 
 // ### Parallel Production
 
 // In a single iteration of the generative algorithm, a _Term_ is updated in a
 // depth-first manner to update the leaves (the NT values representing chords)
 // from left to right.
-                                                  
 
 // For Let expressions of the form let x = t1 in t2, the terms t1 and t2 are
 // updated independently, but instances of x are not instantiated with their
 // values at this stage.
 
-// A function to rewrite one Sentence to another using an L-System-like approach
-// to generation where all symbols are updated from left to right.
-
-/*
-export function updater<S,P> (rules: Array<Rule<S,P>>, rand: RandFn) : Updater<S,P> {
-  return function update<S,P> (sentence: Sentence<S,P>) : Sentence<S,P> {
-    return sentence.map((term : Term<S,P>) => {
-      switch(term.type) {
-        default: return null
-      }
-    })
-  }
+// An function to rewrite one Sentence to another using an
+// L-System-like approach to generation where all symbols are updated from left
+// to right.
+function update      (rules                  , rand        , sentence               )                 {
+  // Instead of the recursive approach of the original Haskell source code,
+  // and since Javascript doesn't fit well to that (no tail optimization, no lazy)
+  // we use a more imperative approach (but probably there's a better way):
+  let result                 = [];
+  sentence.forEach((term           ) => {
+    switch(term.type) {
+      case 'NT':
+        result = result.concat(applyRule(rules, rand, term));
+        break;
+    }
+  });
+  return result
 }
-*/
+
+// ### Applying Rules
+
+// A function to update a single non-terinal term:
+const applyRule =      (rules                  , rand        , term         )                 => {
+  const { symbol, param }  = term;
+  const matches = rules.filter((rule) => rule.symbol === symbol);
+  if (matches.length) {
+    const rule = choose(matches, rand());
+    return rule.fn(param)
+  } else {
+    return [term]
+  }
+};
+
+// TODO: remove recursion
+const choose =      (rules                  , random        )             => {
+  const head = rules[0];
+  if (rules.length === 1 || random < head.prob) return head
+  else return choose(rules.slice(1), random - head.prob)
+};
 
 // # Musical Grammar
 // [Original source code](https://github.com/donya/Kulitta/blob/master/Kulitta/Grammars/MusicGrammars.lhs)
@@ -132,7 +168,11 @@ const tn       = 1/32;
 // A default MP value is one measure long (in 4/4) in the key of C-major.
 const defaultMP      = { dur: 1, mode: 'Major', key: 0, onset: 0, seqDur: 1 };
 
+// It is also useful to have tests for MP values and modifiers for them.
 const isMaj = (param    )           => param.mode === 'Major';
+const isMin = (param    )           => param.mode === 'Minor';
+
+// ## Modifiers
 
 // Modifier is a function to perform music parameter updtes
                                  
@@ -164,6 +204,20 @@ const qo2 = compose(q, q2);
 const qo3 = compose(q, q3);
 const qo4 = compose(q, q4);
 
+// ## Rules
+
+                                  
+// The following alter Rules to do a duration test. Each has a
+// "rejection condition" that will be the condition for an ID rule.
+
+// The rejection condition in this case tests the left-hand-side
+// symbol's duration.
+
+function toRelDuration (isValidDur                       , rule                 )                   {
+  const { prob, symbol, fn } = rule;
+  return newRule(prob, symbol, (param    ) => fn(param))
+}
+
 // # KulittaJS
 // This is a port of some parts of [Kulitta](https://github.com/donya/Kulitta) to Javascript (with the help of [flow](https://flowtype.org))
 
@@ -180,8 +234,12 @@ const qo4 = compose(q, q4);
 
 // [source code](ptgg.html)
 
-exports.NT = NT;
-exports.Rule = Rule;
+exports.newNT = newNT;
+exports.newLet = newLet;
+exports.newVar = newVar;
+exports.newRule = newRule;
+exports.random = random;
+exports.update = update;
 exports.wn = wn;
 exports.hn = hn;
 exports.qn = qn;
@@ -190,6 +248,7 @@ exports.sn = sn;
 exports.tn = tn;
 exports.defaultMP = defaultMP;
 exports.isMaj = isMaj;
+exports.isMin = isMin;
 exports.h = h;
 exports.q = q;
 exports.e = e;
@@ -200,6 +259,7 @@ exports.ho = ho;
 exports.qo2 = qo2;
 exports.qo3 = qo3;
 exports.qo4 = qo4;
+exports.toRelDuration = toRelDuration;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 

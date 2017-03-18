@@ -165,9 +165,6 @@ can represent chord progressions</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>
-type Term&lt;S,P&gt; =</pre></div></div>
-            
         </li>
         
         
@@ -181,7 +178,7 @@ type Term&lt;S,P&gt; =</pre></div></div>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  { <span class="hljs-attr">type</span>: <span class="hljs-string">'NT'</span>, <span class="hljs-attr">symbol</span>: S, <span class="hljs-attr">param</span>: P }</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> type NT&lt;S,P&gt; = { <span class="hljs-attr">type</span>: <span class="hljs-string">'NT'</span>, <span class="hljs-attr">symbol</span>: S, <span class="hljs-attr">param</span>: P }</pre></div></div>
             
         </li>
         
@@ -196,7 +193,7 @@ type Term&lt;S,P&gt; =</pre></div></div>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'Let'</span>, <span class="hljs-attr">name</span>: string, <span class="hljs-attr">value</span>: Sentence&lt;P, S&gt;, <span class="hljs-attr">expr</span>: Sentence&lt;P, S&gt; }</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> type Let&lt;S,P&gt; = { <span class="hljs-attr">type</span>: <span class="hljs-string">'Let'</span>, <span class="hljs-attr">name</span>: string, <span class="hljs-attr">value</span>: Sentence&lt;S,P&gt;, <span class="hljs-attr">expr</span>: Sentence&lt;S,P&gt; }</pre></div></div>
             
         </li>
         
@@ -211,7 +208,9 @@ type Term&lt;S,P&gt; =</pre></div></div>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'Var'</span>, <span class="hljs-attr">name</span>: string }</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> type Var&lt;S,P&gt; ={ <span class="hljs-attr">type</span>: <span class="hljs-string">'Var'</span>, <span class="hljs-attr">name</span>: string }
+
+type Term&lt;S,P&gt; = NT&lt;S,P&gt; | Let&lt;S,P&gt; | Var&lt;S,P&gt;</pre></div></div>
             
         </li>
         
@@ -229,7 +228,8 @@ type Term&lt;S,P&gt; =</pre></div></div>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> NT = &lt;S,P&gt;(symbol: S) =&gt; (param: P) : Term&lt;S,P&gt; =&gt; ({ type: 'NT', symbol, param })</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> newNT = &lt;S,P&gt;(symbol: S) =&gt; (param: P) : Term&lt;S,P&gt; =&gt;
+  ({ type: 'NT', symbol, param })</pre></div></div>
             
         </li>
         
@@ -242,10 +242,12 @@ type Term&lt;S,P&gt; =</pre></div></div>
               </div>
               <ol>
 <li>Let - a means of capturing variable instantiation in a Term.</li>
-<li>Var - a variable</li>
 </ol>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> newLet = &lt;S,P&gt;(name: string, value: Sentence&lt;S,P&gt;, expr: Sentence&lt;S,P&gt;) =&gt;
+  ({ type: 'Let', name, value, expr })</pre></div></div>
             
         </li>
         
@@ -256,11 +258,16 @@ type Term&lt;S,P&gt; =</pre></div></div>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-15">&#182;</a>
               </div>
-              <p>A Sentence is a list of Terms.</p>
+              <ol>
+<li>Var - a variable</li>
+</ol>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>type Sentence&lt;S,P&gt; = <span class="hljs-built_in">Array</span>&lt;Term&lt;S,P&gt;&gt;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> newVar = <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">S,P</span>&gt;</span>(name: string) =&gt;
+  ({ type: 'Var', name })
+
+</span></pre></div></div>
             
         </li>
         
@@ -271,9 +278,11 @@ type Term&lt;S,P&gt; =</pre></div></div>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-16">&#182;</a>
               </div>
-              <h2 id="rules">Rules</h2>
+              <p>A Sentence is a list of Terms.</p>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre>type Sentence&lt;S,P&gt; = <span class="hljs-built_in">Array</span>&lt;Term&lt;S,P&gt;&gt;</pre></div></div>
             
         </li>
         
@@ -284,15 +293,9 @@ type Term&lt;S,P&gt; =</pre></div></div>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-17">&#182;</a>
               </div>
-              <p>A rule has a left and righthand side. The lefthand side has an
-un-parameterized symbol and a probability for application of the rule. The
-righthand side is a function from a parameter to a Sentence.</p>
+              <h2 id="rules">Rules</h2>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre>type Prob = number
-type RuleFn&lt;S,P&gt; = <span class="hljs-function">(<span class="hljs-params">P</span>) =&gt;</span> Sentence&lt;S,P&gt;
-type ARule&lt;S,P&gt; = { <span class="hljs-attr">prob</span>: Prob, <span class="hljs-attr">symbol</span>: S, <span class="hljs-attr">fn</span>: RuleFn&lt;S,P&gt; }</pre></div></div>
             
         </li>
         
@@ -303,13 +306,15 @@ type ARule&lt;S,P&gt; = { <span class="hljs-attr">prob</span>: Prob, <span class
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-18">&#182;</a>
               </div>
-              <p>A Rule constructor</p>
+              <p>A rule has a left and righthand side. The lefthand side has an
+un-parameterized symbol and a probability for application of the rule. The
+righthand side is a function from a parameter to a Sentence.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Rule</span>&lt;<span class="hljs-title">S</span>, <span class="hljs-title">P</span>&gt; (<span class="hljs-params">prob: Prob, symbol: S, fn: RuleFn&lt;S, P&gt;</span>) : <span class="hljs-title">ARule</span>&lt;<span class="hljs-title">S</span>, <span class="hljs-title">P</span>&gt; </span>{
-  <span class="hljs-keyword">return</span> { prob, symbol, fn }
-}</pre></div></div>
+            <div class="content"><div class='highlight'><pre>type Prob = number
+type RuleFn&lt;S,P&gt; = <span class="hljs-function">(<span class="hljs-params">P</span>) =&gt;</span> Sentence&lt;S,P&gt;
+<span class="hljs-keyword">export</span> type Rule&lt;S,P&gt; = { <span class="hljs-attr">prob</span>: Prob, <span class="hljs-attr">symbol</span>: S, <span class="hljs-attr">fn</span>: RuleFn&lt;S,P&gt; }</pre></div></div>
             
         </li>
         
@@ -320,9 +325,13 @@ type ARule&lt;S,P&gt; = { <span class="hljs-attr">prob</span>: Prob, <span class
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-19">&#182;</a>
               </div>
-              <h2 id="generate-terms">Generate terms</h2>
+              <p>A Rule constructor</p>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">newRule</span>&lt;<span class="hljs-title">S</span>, <span class="hljs-title">P</span>&gt; (<span class="hljs-params">prob: Prob, symbol: S, fn: RuleFn&lt;S, P&gt;</span>) : <span class="hljs-title">Rule</span>&lt;<span class="hljs-title">S</span>, <span class="hljs-title">P</span>&gt; </span>{
+  <span class="hljs-keyword">return</span> { prob, symbol, fn }
+}</pre></div></div>
             
         </li>
         
@@ -333,8 +342,7 @@ type ARule&lt;S,P&gt; = { <span class="hljs-attr">prob</span>: Prob, <span class
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-20">&#182;</a>
               </div>
-              <p>Our strategy for applying a PTGG generatively is to begin with a start symbol
-and choose a rule randomly, but biased by the associated probability.</p>
+              <h2 id="generate-terms">Generate terms</h2>
 
             </div>
             
@@ -347,12 +355,10 @@ and choose a rule randomly, but biased by the associated probability.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-21">&#182;</a>
               </div>
-              <h3 id="random-generator">Random generator</h3>
+              <p>Our strategy for applying a PTGG generatively is to begin with a start symbol
+and choose a rule randomly, but biased by the associated probability.</p>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre>
-type RandFn = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> number</pre></div></div>
             
         </li>
         
@@ -363,19 +369,12 @@ type RandFn = <span class="hljs-function"><span class="hljs-params">()</span> =&
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-22">&#182;</a>
               </div>
-              <h3 id="applying-rules">Applying Rules</h3>
+              <h3 id="random-generator">Random generator</h3>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">applyRule</span>&lt;<span class="hljs-title">S</span>,<span class="hljs-title">P</span>&gt; (<span class="hljs-params">rules: Array&lt;ARule&lt;S,P&gt;&gt;, symbol: S, param: P, rand: RandFn </span>) : <span class="hljs-title">Sentence</span>&lt;<span class="hljs-title">S</span>,<span class="hljs-title">P</span>&gt; </span>{
-  <span class="hljs-keyword">var</span> matches = rules.filter(<span class="hljs-function">(<span class="hljs-params">rule</span>) =&gt;</span> rule.symbol === symbol)
-  <span class="hljs-keyword">if</span> (matches.length) {
-    <span class="hljs-keyword">var</span> rule = matches[<span class="hljs-number">0</span>]
-    <span class="hljs-keyword">return</span> rule.fn(param)
-  } <span class="hljs-keyword">else</span> {
-    <span class="hljs-keyword">return</span> [{ <span class="hljs-attr">type</span>: <span class="hljs-string">'NT'</span>, symbol, param }]
-  }
-}</pre></div></div>
+            <div class="content"><div class='highlight'><pre>
+type RandFn = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> number</pre></div></div>
             
         </li>
         
@@ -386,9 +385,11 @@ type RandFn = <span class="hljs-function"><span class="hljs-params">()</span> =&
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-23">&#182;</a>
               </div>
-              <h3 id="parallel-production">Parallel Production</h3>
+              <p>The most basic random generator</p>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> random : RandFn = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">Math</span>.random()</pre></div></div>
             
         </li>
         
@@ -399,13 +400,9 @@ type RandFn = <span class="hljs-function"><span class="hljs-params">()</span> =&
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-24">&#182;</a>
               </div>
-              <p>In a single iteration of the generative algorithm, a <em>Term</em> is updated in a
-depth-first manner to update the leaves (the NT values representing chords)
-from left to right.</p>
+              <h3 id="parallel-production">Parallel Production</h3>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre>type Updater&lt;S,P&gt; = <span class="hljs-function">(<span class="hljs-params">term: Term&lt;S,P&gt;</span>) =&gt;</span> Term&lt;S,P&gt;</pre></div></div>
             
         </li>
         
@@ -416,9 +413,9 @@ from left to right.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-25">&#182;</a>
               </div>
-              <p>For Let expressions of the form let x = t1 in t2, the terms t1 and t2 are
-updated independently, but instances of x are not instantiated with their
-values at this stage.</p>
+              <p>In a single iteration of the generative algorithm, a <em>Term</em> is updated in a
+depth-first manner to update the leaves (the NT values representing chords)
+from left to right.</p>
 
             </div>
             
@@ -431,23 +428,110 @@ values at this stage.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-26">&#182;</a>
               </div>
-              <p>A function to rewrite one Sentence to another using an L-System-like approach
-to generation where all symbols are updated from left to right.</p>
+              <p>For Let expressions of the form let x = t1 in t2, the terms t1 and t2 are
+updated independently, but instances of x are not instantiated with their
+values at this stage.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>
-<span class="hljs-comment">/*
-export function updater&lt;S,P&gt; (rules: Array&lt;Rule&lt;S,P&gt;&gt;, rand: RandFn) : Updater&lt;S,P&gt; {
-  return function update&lt;S,P&gt; (sentence: Sentence&lt;S,P&gt;) : Sentence&lt;S,P&gt; {
-    return sentence.map((term : Term&lt;S,P&gt;) =&gt; {
-      switch(term.type) {
-        default: return null
-      }
-    })
+        </li>
+        
+        
+        <li id="section-27">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-27">&#182;</a>
+              </div>
+              <p>An function to rewrite one Sentence to another using an
+L-System-like approach to generation where all symbols are updated from left
+to right.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">update</span>&lt;<span class="hljs-title">S</span>,<span class="hljs-title">P</span>&gt; (<span class="hljs-params">rules: Array&lt;Rule&lt;S,P&gt;&gt;, rand: RandFn, sentence: Sentence&lt;S,P&gt;</span>) : <span class="hljs-title">Sentence</span>&lt;<span class="hljs-title">S</span>,<span class="hljs-title">P</span>&gt; </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <p>Instead of the recursive approach of the original Haskell source code,
+and since Javascript doesn’t fit well to that (no tail optimization, no lazy)
+we use a more imperative approach (but probably there’s a better way):</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">let</span> result : Sentence&lt;S,P&gt; = []
+  sentence.forEach(<span class="hljs-function">(<span class="hljs-params">term: Term&lt;S,P&gt;</span>) =&gt;</span> {
+    <span class="hljs-keyword">switch</span>(term.type) {
+      <span class="hljs-keyword">case</span> <span class="hljs-string">'NT'</span>:
+        result = result.concat(applyRule(rules, rand, term))
+        <span class="hljs-keyword">break</span>;
+    }
+  })
+  <span class="hljs-keyword">return</span> result
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-29">&#182;</a>
+              </div>
+              <h3 id="applying-rules">Applying Rules</h3>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-30">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-30">&#182;</a>
+              </div>
+              <p>A function to update a single non-terinal term:</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">const</span> applyRule = &lt;S,P&gt;(rules: Array&lt;Rule&lt;S,P&gt;&gt;, rand: RandFn, term: NT&lt;S,P&gt;) : Sentence&lt;S,P&gt; =&gt; {
+  const { symbol, param }  = term
+  const matches = rules.filter((rule) =&gt; rule.symbol === symbol)
+  if (matches.length) {
+    const rule = choose(matches, rand())
+    return rule.fn(param)
+  } else {
+    return [term]
   }
-}
-*/</span></pre></div></div>
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-31">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-31">&#182;</a>
+              </div>
+              <p>TODO: remove recursion</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">const</span> choose = &lt;S,P&gt;(rules: Array&lt;Rule&lt;S,P&gt;&gt;, random: number) : Rule&lt;S,P&gt; =&gt; {
+  const head = rules[0]
+  if (rules.length === 1 || random &lt; head.prob) return head
+  else return choose(rules.slice(1), random - head.prob)
+}</pre></div></div>
             
         </li>
         
