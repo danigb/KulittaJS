@@ -1,8 +1,13 @@
 // # KulittaJS
-// A port of [Kulitta](https://github.com/donya/Kulitta) to Javascript + Flow
-// [Original source code](https://github.com/donya/Kulitta/blob/master/Kulitta.lhs) by Donya Kick
+// This is a port of some parts of [Kulitta](https://github.com/donya/Kulitta) to Javascript (with the help of [flow](https://flowtype.org))
+
+// [Original source code](https://github.com/donya/Kulitta/blob/master/Kulitta.lhs) by Donya Kick and Paul Hudak
+
 // Port to Javascript by danigb
+
 /* @flow */
+
+// ## Modules
 
 // #### PTGG
 // _Probabilistic Temporal Graph Grammars_

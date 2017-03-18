@@ -160,16 +160,13 @@ chord progression features like modulations and repetition.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
-              <p>The Term data structure has three constructors:</p>
-<ol>
-<li>NT - a nonterminal that has a symbol and a parameter.</li>
-<li>Let - a means of capturing variable instantiation in a Term.</li>
-<li>Var - a variable</li>
-</ol>
+              <p>See <a href="music-grammar.html">music-grammar</a> to see how a Term<Chord, MusicParam>
+can represent chord progressions</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>type Term&lt;S, P&gt; =</pre></div></div>
+            <div class="content"><div class='highlight'><pre>
+type Term&lt;S,P&gt; =</pre></div></div>
             
         </li>
         
@@ -225,11 +222,232 @@ chord progression features like modulations and repetition.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-13">&#182;</a>
               </div>
+              <p>The Term data structure has three constructors:</p>
+<ol>
+<li>NT - a nonterminal that has a symbol and a parameter.</li>
+</ol>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> NT = &lt;S,P&gt;(symbol: S) =&gt; (param: P) : Term&lt;S,P&gt; =&gt; ({ type: 'NT', symbol, param })</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <ol>
+<li>Let - a means of capturing variable instantiation in a Term.</li>
+<li>Var - a variable</li>
+</ol>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
               <p>A Sentence is a list of Terms.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>type Sentence&lt;P, S&gt; = <span class="hljs-built_in">Array</span>&lt;Term&lt;S, P&gt;&gt;</pre></div></div>
+            <div class="content"><div class='highlight'><pre>type Sentence&lt;S,P&gt; = <span class="hljs-built_in">Array</span>&lt;Term&lt;S,P&gt;&gt;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <h2 id="rules">Rules</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>A rule has a left and righthand side. The lefthand side has an
+un-parameterized symbol and a probability for application of the rule. The
+righthand side is a function from a parameter to a Sentence.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>type Prob = number
+type RuleFn&lt;S,P&gt; = <span class="hljs-function">(<span class="hljs-params">P</span>) =&gt;</span> Sentence&lt;S,P&gt;
+type ARule&lt;S,P&gt; = { <span class="hljs-attr">prob</span>: Prob, <span class="hljs-attr">symbol</span>: S, <span class="hljs-attr">fn</span>: RuleFn&lt;S,P&gt; }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>A Rule constructor</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Rule</span>&lt;<span class="hljs-title">S</span>, <span class="hljs-title">P</span>&gt; (<span class="hljs-params">prob: Prob, symbol: S, fn: RuleFn&lt;S, P&gt;</span>) : <span class="hljs-title">ARule</span>&lt;<span class="hljs-title">S</span>, <span class="hljs-title">P</span>&gt; </span>{
+  <span class="hljs-keyword">return</span> { prob, symbol, fn }
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <h2 id="generate-terms">Generate terms</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>Our strategy for applying a PTGG generatively is to begin with a start symbol
+and choose a rule randomly, but biased by the associated probability.</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <h3 id="random-generator">Random generator</h3>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+type RandFn = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> number</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <h3 id="applying-rules">Applying Rules</h3>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">applyRule</span>&lt;<span class="hljs-title">S</span>,<span class="hljs-title">P</span>&gt; (<span class="hljs-params">rules: Array&lt;ARule&lt;S,P&gt;&gt;, symbol: S, param: P, rand: RandFn </span>) : <span class="hljs-title">Sentence</span>&lt;<span class="hljs-title">S</span>,<span class="hljs-title">P</span>&gt; </span>{
+  <span class="hljs-keyword">var</span> matches = rules.filter(<span class="hljs-function">(<span class="hljs-params">rule</span>) =&gt;</span> rule.symbol === symbol)
+  <span class="hljs-keyword">if</span> (matches.length) {
+    <span class="hljs-keyword">var</span> rule = matches[<span class="hljs-number">0</span>]
+    <span class="hljs-keyword">return</span> rule.fn(param)
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">return</span> [{ <span class="hljs-attr">type</span>: <span class="hljs-string">'NT'</span>, symbol, param }]
+  }
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <h3 id="parallel-production">Parallel Production</h3>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <p>In a single iteration of the generative algorithm, a <em>Term</em> is updated in a
+depth-first manner to update the leaves (the NT values representing chords)
+from left to right.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>type Updater&lt;S,P&gt; = <span class="hljs-function">(<span class="hljs-params">term: Term&lt;S,P&gt;</span>) =&gt;</span> Term&lt;S,P&gt;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <p>For Let expressions of the form let x = t1 in t2, the terms t1 and t2 are
+updated independently, but instances of x are not instantiated with their
+values at this stage.</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <p>A function to rewrite one Sentence to another using an L-System-like approach
+to generation where all symbols are updated from left to right.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+<span class="hljs-comment">/*
+export function updater&lt;S,P&gt; (rules: Array&lt;Rule&lt;S,P&gt;&gt;, rand: RandFn) : Updater&lt;S,P&gt; {
+  return function update&lt;S,P&gt; (sentence: Sentence&lt;S,P&gt;) : Sentence&lt;S,P&gt; {
+    return sentence.map((term : Term&lt;S,P&gt;) =&gt; {
+      switch(term.type) {
+        default: return null
+      }
+    })
+  }
+}
+*/</span></pre></div></div>
             
         </li>
         
