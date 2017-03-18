@@ -60,10 +60,14 @@ export function Rule (cType: CType, prob: number, fn: RuleFn) : ARule {
 // A random number function generator
 type RandFn = () => number
 
-export function applyRule (rules: Array<ARule>, chord: Chord, rand: RandFn ) : Term {
+function applyRule (rules: Array<ARule>, chord: Chord, rand: RandFn ) : Term {
   var matches = rules.filter((rule) => rule.cType === chord.cType)
-  var rule = matches[0]
-  return rule.fn(chord.dur)
+  if (matches.length) {
+    var rule = matches[0]
+    return rule.fn(chord.dur)
+  } else {
+    return { type: 'NT', chord }
+  }
 }
 
 export function update (rules: Array<ARule>, term: Term, rand: RandFn) : Term {

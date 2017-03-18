@@ -68,8 +68,12 @@ function Rule (cType       , prob        , fn        )         {
 
 function applyRule (rules              , chord       , rand         )        {
   var matches = rules.filter((rule) => rule.cType === chord.cType);
-  var rule = matches[0];
-  return rule.fn(chord.dur)
+  if (matches.length) {
+    var rule = matches[0];
+    return rule.fn(chord.dur)
+  } else {
+    return { type: 'NT', chord }
+  }
 }
 
 function update (rules              , term      , rand        )        {
@@ -94,7 +98,6 @@ exports.v = v;
 exports.vi = vi;
 exports.vii = vii;
 exports.Rule = Rule;
-exports.applyRule = applyRule;
 exports.update = update;
 
 Object.defineProperty(exports, '__esModule', { value: true });

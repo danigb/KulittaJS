@@ -216,10 +216,7 @@ type duration = number</pre></div></div>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'Var'</span>, <span class="hljs-attr">name</span>: string }
-
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> NT = <span class="hljs-function">(<span class="hljs-params">cType: CType</span>) =&gt;</span> (dur: duration) =&gt; ({ <span class="hljs-attr">type</span>: <span class="hljs-string">'NT'</span>, <span class="hljs-attr">chord</span>: { cType, dur} })
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Seq = (...terms: <span class="hljs-built_in">Array</span>&lt;Term&gt;) : <span class="hljs-function"><span class="hljs-params">Term</span> =&gt;</span> ({ <span class="hljs-attr">type</span>: <span class="hljs-string">'Seq'</span>, terms })</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'Var'</span>, <span class="hljs-attr">name</span>: string }</pre></div></div>
             
         </li>
         
@@ -230,21 +227,12 @@ type duration = number</pre></div></div>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-15">&#182;</a>
               </div>
-              <p>We also introduce abbreviations for single-chord Term values.</p>
+              <p>We provide some Term constructors:</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> i = NT(<span class="hljs-string">'I'</span>)
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ii = NT(<span class="hljs-string">'II'</span>)
-<span class="hljs-keyword">const</span> iii = NT(<span class="hljs-string">'III'</span>)
-<span class="hljs-keyword">const</span> iv = NT(<span class="hljs-string">'IV'</span>)
-<span class="hljs-keyword">const</span> v = NT(<span class="hljs-string">'V'</span>)
-<span class="hljs-keyword">const</span> vi = NT(<span class="hljs-string">'VI'</span>)
-<span class="hljs-keyword">const</span> vii = NT(<span class="hljs-string">'VII'</span>)
-
-type RuleFn = <span class="hljs-function">(<span class="hljs-params">dur: duration</span>) =&gt;</span> Term
-
-type ARule = { <span class="hljs-attr">cType</span>: CType, <span class="hljs-attr">prob</span>: number, <span class="hljs-attr">fn</span>: RuleFn }</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> NT = <span class="hljs-function">(<span class="hljs-params">cType: CType</span>) =&gt;</span> (dur: duration) =&gt; ({ <span class="hljs-attr">type</span>: <span class="hljs-string">'NT'</span>, <span class="hljs-attr">chord</span>: { cType, dur} })
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Seq = (...terms: <span class="hljs-built_in">Array</span>&lt;Term&gt;) : <span class="hljs-function"><span class="hljs-params">Term</span> =&gt;</span> ({ <span class="hljs-attr">type</span>: <span class="hljs-string">'Seq'</span>, terms })</pre></div></div>
             
         </li>
         
@@ -254,6 +242,31 @@ type ARule = { <span class="hljs-attr">cType</span>: CType, <span class="hljs-at
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>We also introduce abbreviations for single-chord Term values:</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> i = NT(<span class="hljs-string">'I'</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ii = NT(<span class="hljs-string">'II'</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> iii = NT(<span class="hljs-string">'III'</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> iv = NT(<span class="hljs-string">'IV'</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> v = NT(<span class="hljs-string">'V'</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> vi = NT(<span class="hljs-string">'VI'</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> vii = NT(<span class="hljs-string">'VII'</span>)
+
+type RuleFn = <span class="hljs-function">(<span class="hljs-params">dur: duration</span>) =&gt;</span> Term
+
+type ARule = { <span class="hljs-attr">cType</span>: CType, <span class="hljs-attr">prob</span>: number, <span class="hljs-attr">fn</span>: RuleFn }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
               </div>
               <p>Create a Rule</p>
 
@@ -266,11 +279,11 @@ type ARule = { <span class="hljs-attr">cType</span>: CType, <span class="hljs-at
         </li>
         
         
-        <li id="section-17">
+        <li id="section-18">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-17">&#182;</a>
+                <a class="pilcrow" href="#section-18">&#182;</a>
               </div>
               <p>A random number function generator</p>
 
@@ -278,10 +291,14 @@ type ARule = { <span class="hljs-attr">cType</span>: CType, <span class="hljs-at
             
             <div class="content"><div class='highlight'><pre>type RandFn = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> number
 
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">applyRule</span> (<span class="hljs-params">rules: Array&lt;ARule&gt;, chord: Chord, rand: RandFn </span>) : <span class="hljs-title">Term</span> </span>{
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">applyRule</span> (<span class="hljs-params">rules: Array&lt;ARule&gt;, chord: Chord, rand: RandFn </span>) : <span class="hljs-title">Term</span> </span>{
   <span class="hljs-keyword">var</span> matches = rules.filter(<span class="hljs-function">(<span class="hljs-params">rule</span>) =&gt;</span> rule.cType === chord.cType)
-  <span class="hljs-keyword">var</span> rule = matches[<span class="hljs-number">0</span>]
-  <span class="hljs-keyword">return</span> rule.fn(chord.dur)
+  <span class="hljs-keyword">if</span> (matches.length) {
+    <span class="hljs-keyword">var</span> rule = matches[<span class="hljs-number">0</span>]
+    <span class="hljs-keyword">return</span> rule.fn(chord.dur)
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">return</span> { <span class="hljs-attr">type</span>: <span class="hljs-string">'NT'</span>, chord }
+  }
 }
 
 <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">update</span> (<span class="hljs-params">rules: Array&lt;ARule&gt;, term: Term, rand: RandFn</span>) : <span class="hljs-title">Term</span> </span>{
