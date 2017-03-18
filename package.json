@@ -1,0 +1,21 @@
+{
+  "name": "PTGG",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/ptgg.js",
+  "module": "src/index.js",
+  "scripts": {
+    "flow": "flow test",
+    "pretest": "rollup -cm -n PTGG -f umd -i src/index.js -o dist/ptgg.js",
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "flow-bin": "^0.42.0",
+    "rollup": "^0.41.6",
+    "rollup-plugin-flow": "^1.1.1",
+    "rollup-plugin-uglify": "^1.0.1"
+  }
+}
