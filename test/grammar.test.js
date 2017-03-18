@@ -1,5 +1,5 @@
 /* global describe test expect */
-var { i, ii, update, Rule, Seq } = require('..')
+var { i, ii, updater, Rule, Seq } = require('..')
 
 describe('PTGG', () => {
   test('Create non-terminal chords', () => {
@@ -14,7 +14,7 @@ describe('PTGG', () => {
   })
 
   test('Create sequences', () => {
-    expect(Seq(i(1), ii(2))).toEqual({
+    expect(Seq([ i(1), ii(2) ])).toEqual({
       type: 'Seq',
       terms: [
         { type: 'NT', chord: { cType: 'I', dur: 1 } },
@@ -24,13 +24,13 @@ describe('PTGG', () => {
   })
 
   test('Update a term', () => {
-    const rules = [
+    const update = updater([
       Rule('I', 1, (d) => Seq([i(d / 2), ii(d / 2)]))
-    ]
+    ])
     const initial = i(8)
-    const iter1 = update(rules, initial)
+    const iter1 = update(initial)
     expect(iter1).toEqual(Seq([ i(4), ii(4) ]))
-    const iter2 = update(rules, iter1)
+    const iter2 = update(iter1)
     expect(iter2).toEqual(Seq([ Seq([ i(2), ii(2) ]), ii(4) ]))
   })
 })

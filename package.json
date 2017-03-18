@@ -6,8 +6,9 @@
   "module": "src/index.js",
   "scripts": {
     "flow": "flow test",
-    "pretest": "rollup -cm -n PTGG -f umd -i src/index.js -o dist/ptgg.js",
-    "test": "jest && flow test",
+    "build": "rollup -cm -n PTGG -f umd -i src/index.js -o dist/ptgg.js",
+    "pretest": "flow test && npm run build",
+    "test": "jest",
     "docs": "docco src/*"
   },
   "keywords": [],

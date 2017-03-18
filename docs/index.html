@@ -37,7 +37,10 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>Few algorithms for automated music composition are able to address the combination of harmonic structure, metrical structure, and repetition in a generalized way.</p>
+              <h4 id="attribution">Attribution</h4>
+<p>Not only the ideas, but also most of the text of this annotated source code is taken from:
+“Grammar-Based Automated Music Composition in Haskell” by Donya Quick and Paul Hudak.
+Thanks!!</p>
 
             </div>
             
@@ -50,8 +53,7 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <p>We present a new class of generative grammars called Probabilistic Temporal Graph Grammars, or PTGG’s, that handle all of these features in music while allowing an elegant and concise
-implementation in <del>Haskell</del> Javascript+<a href="https://flowtype.org/">Flow</a>.</p>
+              <h2 id="introduction">Introduction</h2>
 
             </div>
             
@@ -64,7 +66,7 @@ implementation in <del>Haskell</del> Javascript+<a href="https://flowtype.org/">
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
-              <h2 id="chords-progressions-and-modulations">Chords, Progressions, and Modulations</h2>
+              <p>Few algorithms for automated music composition are able to address the combination of harmonic structure, metrical structure, and repetition in a generalized way.</p>
 
             </div>
             
@@ -77,11 +79,10 @@ implementation in <del>Haskell</del> Javascript+<a href="https://flowtype.org/">
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
-              <p>A chord is a chord type and a duration</p>
+              <p>We present a new class of generative grammars called Probabilistic Temporal Graph Grammars, or PTGG’s, that handle all of these features in music while allowing an elegant and concise
+implementation in <del>Haskell</del> Javascript+<a href="https://flowtype.org/">Flow</a>.</p>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre>type Chord = { <span class="hljs-attr">cType</span>: CType, <span class="hljs-attr">dur</span>: duration }</pre></div></div>
             
         </li>
         
@@ -92,11 +93,9 @@ implementation in <del>Haskell</del> Javascript+<a href="https://flowtype.org/">
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
-              <p>Roman numerals represent chords built on scale degrees.</p>
+              <h2 id="chords-progressions-and-modulations">Chords, Progressions, and Modulations</h2>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre>type CType = <span class="hljs-string">'I'</span> | <span class="hljs-string">'II'</span> | <span class="hljs-string">'III'</span> | <span class="hljs-string">'IV'</span> | <span class="hljs-string">'V'</span> | <span class="hljs-string">'VI'</span> | <span class="hljs-string">'VII'</span> | <span class="hljs-string">'X'</span></pre></div></div>
             
         </li>
         
@@ -107,13 +106,11 @@ implementation in <del>Haskell</del> Javascript+<a href="https://flowtype.org/">
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
-              <p>Key changes, or modulations, in our grammar also take place according to scale degrees.</p>
+              <p>A chord is a chord type and a duration</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>type MType = <span class="hljs-string">'M2'</span> | <span class="hljs-string">'M3'</span> | <span class="hljs-string">'M4'</span> | <span class="hljs-string">'M5'</span> | <span class="hljs-string">'M6'</span> | <span class="hljs-string">'M7'</span>
-
-type duration = number</pre></div></div>
+            <div class="content"><div class='highlight'><pre>type Chord = { <span class="hljs-attr">cType</span>: CType, <span class="hljs-attr">dur</span>: duration }</pre></div></div>
             
         </li>
         
@@ -124,9 +121,12 @@ type duration = number</pre></div></div>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
-              <p>We now define a data structure to capture the sentential forms of PTGG, called Term. This data type has a tree structure to model the nested nature of chord progression features like modulations and repetition.</p>
+              <p>Roman numerals represent chords built on scale degrees.</p>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre>type CType = <span class="hljs-string">'I'</span> | <span class="hljs-string">'II'</span> | <span class="hljs-string">'III'</span> | <span class="hljs-string">'IV'</span> | <span class="hljs-string">'V'</span> | <span class="hljs-string">'VI'</span> | <span class="hljs-string">'VII'</span> | <span class="hljs-string">'X'</span>
+type duration = number</pre></div></div>
             
         </li>
         
@@ -137,11 +137,11 @@ type duration = number</pre></div></div>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
-              <p>Chord progressions are represented as a Term.</p>
+              <p>Key changes, or modulations, in our grammar also take place according to scale degrees.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>type Term =</pre></div></div>
+            <div class="content"><div class='highlight'><pre>type MType = <span class="hljs-string">'M2'</span> | <span class="hljs-string">'M3'</span> | <span class="hljs-string">'M4'</span> | <span class="hljs-string">'M5'</span> | <span class="hljs-string">'M6'</span> | <span class="hljs-string">'M7'</span></pre></div></div>
             
         </li>
         
@@ -152,11 +152,9 @@ type duration = number</pre></div></div>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
-              <p>A Term can either be a non-terminal (NT) chord,</p>
+              <p>We now define a data structure to capture the sentential forms of PTGG, called <em>Term</em>. This data type has a tree structure to model the nested nature of chord progression features like modulations and repetition.</p>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre>  { <span class="hljs-attr">type</span>: <span class="hljs-string">'NT'</span>, <span class="hljs-attr">chord</span>: Chord }</pre></div></div>
             
         </li>
         
@@ -167,11 +165,11 @@ type duration = number</pre></div></div>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-11">&#182;</a>
               </div>
-              <p>a sequence (S) of terms,</p>
+              <p><strong>Chord progressions</strong> are represented as a <em>Term</em>.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'Seq'</span>, <span class="hljs-attr">terms</span>: <span class="hljs-built_in">Array</span>&lt;Term&gt; }</pre></div></div>
+            <div class="content"><div class='highlight'><pre>type Term =</pre></div></div>
             
         </li>
         
@@ -182,11 +180,11 @@ type duration = number</pre></div></div>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-12">&#182;</a>
               </div>
-              <p>a term modulated to another key,</p>
+              <p>A <em>Term</em> can either be a non-terminal (NT) chord,</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'Mod'</span>, <span class="hljs-attr">mType</span>: MType, <span class="hljs-attr">term</span>: Term }</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  { <span class="hljs-attr">type</span>: <span class="hljs-string">'NT'</span>, <span class="hljs-attr">chord</span>: Chord }</pre></div></div>
             
         </li>
         
@@ -197,11 +195,11 @@ type duration = number</pre></div></div>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-13">&#182;</a>
               </div>
-              <p>a let-in expression (Let) to capture repetition,</p>
+              <p>a sequence (S) of terms,</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'Let'</span>, <span class="hljs-attr">name</span>: string, <span class="hljs-attr">value</span>: Term, <span class="hljs-attr">expr</span>: Term }</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'Seq'</span>, <span class="hljs-attr">terms</span>: <span class="hljs-built_in">Array</span>&lt;Term&gt; }</pre></div></div>
             
         </li>
         
@@ -212,11 +210,11 @@ type duration = number</pre></div></div>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-14">&#182;</a>
               </div>
-              <p>or a variable (Var) to indicate instances of a particular phrase</p>
+              <p>a term modulated to another key,</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'Var'</span>, <span class="hljs-attr">name</span>: string }</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'Mod'</span>, <span class="hljs-attr">mType</span>: MType, <span class="hljs-attr">term</span>: Term }</pre></div></div>
             
         </li>
         
@@ -227,12 +225,11 @@ type duration = number</pre></div></div>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-15">&#182;</a>
               </div>
-              <p>We provide some Term constructors:</p>
+              <p>a let-in expression (Let) to capture repetition,</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> NT = <span class="hljs-function">(<span class="hljs-params">cType: CType</span>) =&gt;</span> (dur: duration) =&gt; ({ <span class="hljs-attr">type</span>: <span class="hljs-string">'NT'</span>, <span class="hljs-attr">chord</span>: { cType, dur} })
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Seq = (...terms: <span class="hljs-built_in">Array</span>&lt;Term&gt;) : <span class="hljs-function"><span class="hljs-params">Term</span> =&gt;</span> ({ <span class="hljs-attr">type</span>: <span class="hljs-string">'Seq'</span>, terms })</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'Let'</span>, <span class="hljs-attr">name</span>: string, <span class="hljs-attr">value</span>: Term, <span class="hljs-attr">expr</span>: Term }</pre></div></div>
             
         </li>
         
@@ -243,21 +240,11 @@ type duration = number</pre></div></div>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-16">&#182;</a>
               </div>
-              <p>We also introduce abbreviations for single-chord Term values:</p>
+              <p>or a variable (Var) to indicate instances of a particular phrase</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> i = NT(<span class="hljs-string">'I'</span>)
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ii = NT(<span class="hljs-string">'II'</span>)
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> iii = NT(<span class="hljs-string">'III'</span>)
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> iv = NT(<span class="hljs-string">'IV'</span>)
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> v = NT(<span class="hljs-string">'V'</span>)
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> vi = NT(<span class="hljs-string">'VI'</span>)
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> vii = NT(<span class="hljs-string">'VII'</span>)
-
-type RuleFn = <span class="hljs-function">(<span class="hljs-params">dur: duration</span>) =&gt;</span> Term
-
-type ARule = { <span class="hljs-attr">cType</span>: CType, <span class="hljs-attr">prob</span>: number, <span class="hljs-attr">fn</span>: RuleFn }</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'Var'</span>, <span class="hljs-attr">name</span>: string }</pre></div></div>
             
         </li>
         
@@ -268,13 +255,18 @@ type ARule = { <span class="hljs-attr">cType</span>: CType, <span class="hljs-at
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-17">&#182;</a>
               </div>
-              <p>Create a Rule</p>
+              <p>We provide some <em>Term</em> constructors:</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Rule</span> (<span class="hljs-params">cType: CType, prob: number, fn: RuleFn</span>) : <span class="hljs-title">ARule</span> </span>{
-  <span class="hljs-keyword">return</span> { cType, prob, fn }
-}</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> NT = <span class="hljs-function">(<span class="hljs-params">cType: CType</span>) =&gt;</span> (dur: duration) : <span class="hljs-function"><span class="hljs-params">Term</span> =&gt;</span>
+  ({ <span class="hljs-attr">type</span>: <span class="hljs-string">'NT'</span>, <span class="hljs-attr">chord</span>: { cType, dur} })
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Seq = (terms: <span class="hljs-built_in">Array</span>&lt;Term&gt;) : <span class="hljs-function"><span class="hljs-params">Term</span> =&gt;</span>
+  ({ <span class="hljs-attr">type</span>: <span class="hljs-string">'Seq'</span>, terms })
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Mod = (mType: MType, <span class="hljs-attr">term</span>: Term) : <span class="hljs-function"><span class="hljs-params">Term</span> =&gt;</span>
+  ({ <span class="hljs-attr">type</span>: <span class="hljs-string">'Mod'</span>, mType, term })
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Let = (name: string, <span class="hljs-attr">value</span>: Term, <span class="hljs-attr">expr</span>: Term) : <span class="hljs-function"><span class="hljs-params">Term</span> =&gt;</span>
+  ({ <span class="hljs-attr">type</span>: <span class="hljs-string">'Let'</span>, name, value, expr })</pre></div></div>
             
         </li>
         
@@ -285,13 +277,164 @@ type ARule = { <span class="hljs-attr">cType</span>: CType, <span class="hljs-at
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-18">&#182;</a>
               </div>
+              <p>We also introduce abbreviations for single-chord <em>Term</em> values:</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> i = NT(<span class="hljs-string">'I'</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ii = NT(<span class="hljs-string">'II'</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> iii = NT(<span class="hljs-string">'III'</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> iv = NT(<span class="hljs-string">'IV'</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> v = NT(<span class="hljs-string">'V'</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> vi = NT(<span class="hljs-string">'VI'</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> vii = NT(<span class="hljs-string">'VII'</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <h2 id="rules">Rules</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>A rule is a function from duration-parameterized chords to a chord progression:</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>type RuleFn = <span class="hljs-function">(<span class="hljs-params">dur: duration</span>) =&gt;</span> Term</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <p>Because more than one rule may exist for a particular Roman numeral, each rule also has a probability associated with it:</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>type ARule = { <span class="hljs-attr">cType</span>: CType, <span class="hljs-attr">prob</span>: number, <span class="hljs-attr">fn</span>: RuleFn }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <p>For example, the rule It → Vt/2 It/2 with probability p would be written:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> rule = Rule(<span class="hljs-string">'I'</span>, <span class="hljs-number">0.5</span>, (dur) =&gt; Seq([ v(dur/<span class="hljs-number">2</span>), i(dur/<span class="hljs-number">2</span>) ]))<span class="hljs-string">`</span>
+</code></pre>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Rule</span> (<span class="hljs-params">cType: CType, prob: number, fn: RuleFn</span>) : <span class="hljs-title">ARule</span> </span>{
+  <span class="hljs-keyword">return</span> { cType, prob, fn }
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <h2 id="generating-chord-progressions">Generating Chord Progressions</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <p>Our strategy for applying a PTGG generatively is to begin with a start symbol and choose a rule randomly, but biased by the associated probability.</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
               <p>A random number function generator</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>type RandFn = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> number
+            <div class="content"><div class='highlight'><pre>type RandFn = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> number</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <p>we define a single “domain specific” operation to generate a new random number</p>
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">applyRule</span> (<span class="hljs-params">rules: Array&lt;ARule&gt;, chord: Chord, rand: RandFn </span>) : <span class="hljs-title">Term</span> </span>{
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">random</span> (<span class="hljs-params"></span>) </span>{
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-27">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-27">&#182;</a>
+              </div>
+              <h3 id="applying-rules">Applying Rules</h3>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <p>A chord, Xt ∈ N, can be replaced using any rule where X appears on the left-hand side. Since there may be more than one such rule, the applyRule function stochastically selects a rule to apply according to the probabilities assigned to the rules.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">applyRule</span> (<span class="hljs-params">rules: Array&lt;ARule&gt;, chord: Chord, rand: RandFn </span>) : <span class="hljs-title">Term</span> </span>{
   <span class="hljs-keyword">var</span> matches = rules.filter(<span class="hljs-function">(<span class="hljs-params">rule</span>) =&gt;</span> rule.cType === chord.cType)
   <span class="hljs-keyword">if</span> (matches.length) {
     <span class="hljs-keyword">var</span> rule = matches[<span class="hljs-number">0</span>]
@@ -299,19 +442,141 @@ type ARule = { <span class="hljs-attr">cType</span>: CType, <span class="hljs-at
   } <span class="hljs-keyword">else</span> {
     <span class="hljs-keyword">return</span> { <span class="hljs-attr">type</span>: <span class="hljs-string">'NT'</span>, chord }
   }
-}
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-29">&#182;</a>
+              </div>
+              <h3 id="parallel-production">Parallel Production</h3>
 
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">update</span> (<span class="hljs-params">rules: Array&lt;ARule&gt;, term: Term, rand: RandFn</span>) : <span class="hljs-title">Term</span> </span>{
-  <span class="hljs-keyword">switch</span> (term.type) {
-    <span class="hljs-keyword">case</span> <span class="hljs-string">'NT'</span>:
-      <span class="hljs-keyword">return</span> applyRule(rules, term.chord, rand)
-    <span class="hljs-keyword">case</span> <span class="hljs-string">'Seq'</span>:
-      <span class="hljs-keyword">const</span> terms = term.terms.map(<span class="hljs-function"><span class="hljs-params">term</span> =&gt;</span> update(rules, term, rand))
-      <span class="hljs-keyword">return</span> { <span class="hljs-attr">type</span>: <span class="hljs-string">'Seq'</span>, terms }
-    <span class="hljs-keyword">default</span>:
-      <span class="hljs-keyword">return</span> i(<span class="hljs-number">0</span>)
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-30">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-30">&#182;</a>
+              </div>
+              <p>In a single iteration of the generative algorithm, a <em>Term</em> is updated in a depth-first manner to update the leaves (the NT values representing chords) from left to right.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>type UpdateFn = <span class="hljs-function">(<span class="hljs-params">term: Term</span>) =&gt;</span> Term</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-31">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-31">&#182;</a>
+              </div>
+              <p>For Let expressions of the form let x = t1 in t2, the terms t1 and t2 are updated independently, but instances of x are not instantiated with their values at this stage.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">updater</span> (<span class="hljs-params">rules: Array&lt;ARule&gt;, rand: RandFn</span>) : <span class="hljs-title">UpdateFn</span> </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">update</span> (<span class="hljs-params">term: Term</span>) : <span class="hljs-title">Term</span> </span>{
+    <span class="hljs-keyword">switch</span> (term.type) {
+      <span class="hljs-keyword">case</span> <span class="hljs-string">'NT'</span>:
+        <span class="hljs-keyword">return</span> applyRule(rules, term.chord, rand)
+      <span class="hljs-keyword">case</span> <span class="hljs-string">'Seq'</span>:
+        <span class="hljs-keyword">return</span> Seq(term.terms.map(update))
+      <span class="hljs-keyword">case</span> <span class="hljs-string">'Mod'</span>:
+        <span class="hljs-keyword">return</span> Mod(term.mType, update(term.term))
+      <span class="hljs-keyword">case</span> <span class="hljs-string">'Let'</span>:
+        <span class="hljs-keyword">return</span> Let(term.name, update(term.value), update(term.expr))
+      <span class="hljs-keyword">case</span> <span class="hljs-string">'Var'</span>:
+        <span class="hljs-keyword">return</span> term
+      <span class="hljs-keyword">default</span>:
+        <span class="hljs-keyword">return</span> i(<span class="hljs-number">0</span>)
+    }
   }
 }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-32">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-32">&#182;</a>
+              </div>
+              <p>Finally, we define a function gen that iteratively performs the updates:</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">generate</span> (<span class="hljs-params">iter: number, term: Term, rules: Array&lt;ARule&gt;, rand: RandFn</span>) : <span class="hljs-title">Term</span> </span>{
+  <span class="hljs-keyword">const</span> update = updater(rules, rand)
+  <span class="hljs-keyword">while</span> (iter--) term = update(term)
+  <span class="hljs-keyword">return</span> term
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-33">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-33">&#182;</a>
+              </div>
+              <h2 id="musical-interpretation">Musical Interpretation</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-34">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-34">&#182;</a>
+              </div>
+              <p>A <em>Term</em> is a tree data structure with many abstract musical features that must be interpreted in the context in which they appear. Chords must be interpreted within a key, and the key is dependent on the modulation structure of the branch. Variables refer to instances of a specific chord progression, which may have nested Let expressions.</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-35">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-35">&#182;</a>
+              </div>
+              <p>To produce a sequence of chords that can be interpreted musically, the structure of Let statements must be <em>expanded</em> by replacing variables with the progressions they represent. This is important be- cause the interpretation of a variable’s chords hinges on the context in which the variable appears.</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-36">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-36">&#182;</a>
+              </div>
+              <p>When Let expressions appear in rules, the variable names in a generated progression are not guaranteed to be unique.
+We use lexical scop- ing to handle these situations
+The <em>expand</em> function accomplishes this behavior, replacing in- stances of variables with their values under lexical scope, by main- taining an environment of variable definitions.</p>
+
+            </div>
             
         </li>
         
