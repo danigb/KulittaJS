@@ -25,8 +25,8 @@
                 </a>
               
                 
-                <a class="source" href="music-grammar.html">
-                  music-grammar.js
+                <a class="source" href="music-grammars.html">
+                  music-grammars.js
                 </a>
               
                 
@@ -204,7 +204,7 @@ Finally, there is allowance for keeping track of the onset of the symbol as well
             </div>
             
             <div class="content"><div class='highlight'><pre>type Mode = <span class="hljs-string">'Major'</span> | <span class="hljs-string">'Dorian'</span> | <span class="hljs-string">'Phrygian'</span> | <span class="hljs-string">'Lydian'</span> | <span class="hljs-string">'Mixolydian'</span>
-  | <span class="hljs-string">'Minor'</span> | <span class="hljs-string">'Locrian'</span> | <span class="hljs-string">'Chormatic'</span> | [<span class="hljs-string">'Custom'</span>, <span class="hljs-built_in">Array</span>&lt;AbsPitch&gt;]</pre></div></div>
+  | <span class="hljs-string">'Minor'</span> | <span class="hljs-string">'Locrian'</span> | <span class="hljs-string">'Chromatic'</span> | <span class="hljs-string">'Custom'</span></pre></div></div>
             
         </li>
         
@@ -215,11 +215,9 @@ Finally, there is allowance for keeping track of the onset of the symbol as well
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-12">&#182;</a>
               </div>
-              <p>A default MP value is one measure long (in 4/4) in the key of C-major.</p>
+              <p>TODO: Find a method to add a scale to Custom mode [‘Custom’, Array<AbsPitch>]</p>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> defaultMP : MP = { <span class="hljs-attr">dur</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">mode</span>: <span class="hljs-string">'Major'</span>, <span class="hljs-attr">key</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">onset</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">seqDur</span>: <span class="hljs-number">1</span> }</pre></div></div>
             
         </li>
         
@@ -229,6 +227,21 @@ Finally, there is allowance for keeping track of the onset of the symbol as well
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>A default MP value is one measure long (in 4/4) in the key of C-major.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> defaultMP : MP = { <span class="hljs-attr">dur</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">mode</span>: <span class="hljs-string">'Major'</span>, <span class="hljs-attr">key</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">onset</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">seqDur</span>: <span class="hljs-number">1</span> }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
               </div>
               <p>It is also useful to have tests for MP values and modifiers for them.</p>
 
@@ -240,11 +253,11 @@ Finally, there is allowance for keeping track of the onset of the symbol as well
         </li>
         
         
-        <li id="section-14">
+        <li id="section-15">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-14">&#182;</a>
+                <a class="pilcrow" href="#section-15">&#182;</a>
               </div>
               <h2 id="modifiers">Modifiers</h2>
 
@@ -253,11 +266,11 @@ Finally, there is allowance for keeping track of the onset of the symbol as well
         </li>
         
         
-        <li id="section-15">
+        <li id="section-16">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-15">&#182;</a>
+                <a class="pilcrow" href="#section-16">&#182;</a>
               </div>
               <p>Modifier is a function to perform music parameter updtes</p>
 
@@ -268,11 +281,11 @@ Finally, there is allowance for keeping track of the onset of the symbol as well
         </li>
         
         
-        <li id="section-16">
+        <li id="section-17">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-16">&#182;</a>
+                <a class="pilcrow" href="#section-17">&#182;</a>
               </div>
               <p>Modifiers on duration can be used to succinctly write transformations.
 For example, to halve the duration of a parameter <code>param: MP</code>, one need only
@@ -290,11 +303,11 @@ write <code>h(param)</code></p>
         </li>
         
         
-        <li id="section-17">
+        <li id="section-18">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-17">&#182;</a>
+                <a class="pilcrow" href="#section-18">&#182;</a>
               </div>
               <p>Similarly, we have some shorthands for adjusting the onsets and
 durations at the same time. NOTE: offsets should be changed
@@ -312,11 +325,11 @@ before the duration is changed.</p>
         </li>
         
         
-        <li id="section-18">
+        <li id="section-19">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-18">&#182;</a>
+                <a class="pilcrow" href="#section-19">&#182;</a>
               </div>
               <p>We can also do shorthands that do both things.</p>
 
@@ -331,33 +344,19 @@ before the duration is changed.</p>
         </li>
         
         
-        <li id="section-19">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-19">&#182;</a>
-              </div>
-              <h2 id="rules">Rules</h2>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>
-<span class="hljs-keyword">import</span> type { Rule } <span class="hljs-keyword">from</span> <span class="hljs-string">'./ptgg'</span>
-<span class="hljs-keyword">import</span> { newRule } <span class="hljs-keyword">from</span> <span class="hljs-string">'./ptgg'</span></pre></div></div>
-            
-        </li>
-        
-        
         <li id="section-20">
             <div class="annotation">
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-20">&#182;</a>
               </div>
-              <p>The following alter Rules to do a duration test. Each has a
-“rejection condition” that will be the condition for an ID rule.</p>
+              <h2 id="rules">Rules</h2>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre>
+<span class="hljs-keyword">import</span> type { Rule, Sentence, NT } <span class="hljs-keyword">from</span> <span class="hljs-string">'./ptgg'</span>
+<span class="hljs-keyword">import</span> { newRule, newNT } <span class="hljs-keyword">from</span> <span class="hljs-string">'./ptgg'</span></pre></div></div>
             
         </li>
         
@@ -368,6 +367,20 @@ before the duration is changed.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-21">&#182;</a>
               </div>
+              <p>The following alter Rules to do a duration test. Each has a
+“rejection condition” that will be the condition for an ID rule.</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
               <p>The rejection condition in this case tests the left-hand-side
 symbol’s duration.</p>
 
@@ -376,8 +389,171 @@ symbol’s duration.</p>
             <div class="content"><div class='highlight'><pre>
 <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">toRelDuration</span> (<span class="hljs-params">isValidDur: (dur: Dur</span>) =&gt; <span class="hljs-title">boolean</span>, <span class="hljs-title">rule</span>: <span class="hljs-title">Rule</span>&lt;<span class="hljs-title">CType</span>, <span class="hljs-title">MP</span>&gt;) : <span class="hljs-title">Rule</span>&lt;<span class="hljs-title">CType</span>, <span class="hljs-title">MP</span>&gt; </span>{
   <span class="hljs-keyword">const</span> { prob, symbol, fn } = rule
-  <span class="hljs-keyword">return</span> newRule(prob, symbol, (param: MP) =&gt; fn(param))
+  <span class="hljs-keyword">return</span> newRule(symbol, prob, (param: MP) =&gt; fn(param))
 }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <p>TODO: complete this section</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <h1 id="mode-key-changes">Mode/key changes</h1>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+<span class="hljs-keyword">const</span> Major = <span class="hljs-string">'Major'</span>
+<span class="hljs-keyword">const</span> Minor = <span class="hljs-string">'Minor'</span>
+<span class="hljs-keyword">const</span> majModes = [Major, Minor, Minor, Major, Major, Minor, Minor]
+<span class="hljs-keyword">const</span> minModes = [Minor, Minor, Major, Minor, Minor, Major, Major]
+
+<span class="hljs-keyword">const</span> Scales = {
+  <span class="hljs-attr">Major</span>: [<span class="hljs-number">0</span>,<span class="hljs-number">2</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">7</span>,<span class="hljs-number">9</span>,<span class="hljs-number">11</span>],
+  <span class="hljs-attr">Minor</span>: [<span class="hljs-number">0</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">5</span>,<span class="hljs-number">7</span>,<span class="hljs-number">8</span>,<span class="hljs-number">10</span>],
+  <span class="hljs-attr">Dorian</span>: [<span class="hljs-number">0</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>, <span class="hljs-number">7</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>],
+  <span class="hljs-attr">Phrygian</span>: [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">10</span>],
+  <span class="hljs-attr">Lydian</span>: [<span class="hljs-number">0</span>, <span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">9</span>, <span class="hljs-number">11</span>],
+  <span class="hljs-attr">Mixolydian</span>: [<span class="hljs-number">0</span>, <span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">7</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>],
+  <span class="hljs-attr">Locrian</span>: [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">8</span>, <span class="hljs-number">10</span>],
+  <span class="hljs-attr">Chromatic</span>: [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>],
+  <span class="hljs-attr">Custom</span>: <span class="hljs-literal">null</span>
+}
+
+<span class="hljs-keyword">const</span> getScale = (mode: Mode) : <span class="hljs-built_in">Array</span>&lt;AbsPitch&gt; =&gt; {
+  <span class="hljs-keyword">const</span> scale = Scales[mode]
+  <span class="hljs-keyword">if</span> (!scale) <span class="hljs-keyword">throw</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Scale not defined for mode '</span> + mode)
+  <span class="hljs-keyword">return</span> scale
+}
+<span class="hljs-keyword">const</span> majScale = getScale(<span class="hljs-string">'Major'</span>)
+<span class="hljs-keyword">const</span> minScale = getScale(<span class="hljs-string">'Minor'</span>)
+
+<span class="hljs-keyword">const</span> modMajMin = <span class="hljs-function">(<span class="hljs-params">i: number</span>) =&gt;</span> (param: MP) : <span class="hljs-function"><span class="hljs-params">MP</span> =&gt;</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <p>clone the param</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">const</span> mod = <span class="hljs-built_in">Object</span>.assign({}, param)
+  <span class="hljs-keyword">if</span> (param.mode === <span class="hljs-string">'Major'</span>) {
+    mod.mode = majModes[i]
+    mod.key = (param.key + majScale[i]) % <span class="hljs-number">12</span>
+  } <span class="hljs-keyword">else</span> {
+    mod.mode = minModes[i]
+    mod.key = (param.key + minScale[i]) % <span class="hljs-number">12</span>
+  }
+  <span class="hljs-keyword">return</span> mod
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <p>Basic modulations on scale degrees for Major and Minor systems</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> m2 = modMajMin(<span class="hljs-number">1</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> m3 = modMajMin(<span class="hljs-number">2</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> m4 = modMajMin(<span class="hljs-number">3</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> m5 = modMajMin(<span class="hljs-number">4</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> m6 = modMajMin(<span class="hljs-number">5</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> m7 = modMajMin(<span class="hljs-number">6</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-27">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-27">&#182;</a>
+              </div>
+              <h1 id="progression-symbols">Progression symbols</h1>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <p>P = {piece, P}
+R = {TR, SR, DR} functional region symbols
+K = {Cmaj, Cmin, …} key symbols
+F = {t, s, d, tp, sp, dp, tcp} functional term symbols
+S = {I, II, …} scale degree chord representations
+O = {Cmaj, …} surface chord symbols (e.g. I in K=Cmaj)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+<span class="hljs-keyword">export</span> type RTerm = <span class="hljs-string">'Piece'</span> | <span class="hljs-string">'P'</span> | <span class="hljs-string">'TR'</span> | <span class="hljs-string">'DR'</span> | <span class="hljs-string">'SR'</span> | <span class="hljs-string">'T'</span> | <span class="hljs-string">'D'</span> | <span class="hljs-string">'S'</span> | <span class="hljs-string">'TP'</span> | <span class="hljs-string">'TCP'</span> | <span class="hljs-string">'SP'</span> | <span class="hljs-string">'DP'</span>
+  | <span class="hljs-string">'C I'</span> | <span class="hljs-string">'C II'</span> | <span class="hljs-string">'C III'</span> | <span class="hljs-string">'C IV'</span> | <span class="hljs-string">'C V'</span> | <span class="hljs-string">'C VI'</span> | <span class="hljs-string">'C VI'</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-29">&#182;</a>
+              </div>
+              <h2 id="tsd-grammar-base">TSD Grammar base</h2>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> T = (p : MP) : NT&lt;RTerm, MP&gt; =&gt; newNT(<span class="hljs-string">'T'</span>, p)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> S = (p : MP) : NT&lt;RTerm, MP&gt; =&gt; newNT(<span class="hljs-string">'S'</span>, p)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> D = (p : MP) : NT&lt;RTerm, MP&gt; =&gt; newNT(<span class="hljs-string">'D'</span>, p)
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> tdsRules : <span class="hljs-built_in">Array</span>&lt;Rule&lt;RTerm, MP&gt;&gt; = [
+  newRule(<span class="hljs-string">'T'</span>, <span class="hljs-number">0.25</span>, (p) =&gt; [ T(p) ]),
+  newRule(<span class="hljs-string">'T'</span>, <span class="hljs-number">0.25</span>, (p) =&gt; [ T(h(p)), T(h(p)) ]),
+  newRule(<span class="hljs-string">'T'</span>, <span class="hljs-number">0.25</span>, (p) =&gt; [ T(h(p)), D(h(p)) ]),
+  newRule(<span class="hljs-string">'T'</span>, <span class="hljs-number">0.25</span>, (p) =&gt; [ D(h(p)), T(h(p)) ]),
+  newRule(<span class="hljs-string">'D'</span>, <span class="hljs-number">0.33</span>, (p) =&gt; [ D(p) ]),
+  newRule(<span class="hljs-string">'D'</span>, <span class="hljs-number">0.33</span>, (p) =&gt; [ D(h(p)), D(h(p)) ]),
+  newRule(<span class="hljs-string">'D'</span>, <span class="hljs-number">0.34</span>, (p) =&gt; [ S(h(p)), D(h(p)) ]),
+  newRule(<span class="hljs-string">'S'</span>, <span class="hljs-number">0.5</span>, (p) =&gt; [ S(p) ]),
+  newRule(<span class="hljs-string">'S'</span>, <span class="hljs-number">0.5</span>, (p) =&gt; [ S(h(p)), S(h(p)) ])
+]</pre></div></div>
             
         </li>
         

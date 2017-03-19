@@ -28,23 +28,23 @@ export type NT<S,P> = { type: 'NT', symbol: S, param: P }
 // a let-in expression (Let) to capture repetition,
 export type Let<S,P> = { type: 'Let', name: string, value: Sentence<S,P>, expr: Sentence<S,P> }
 // or a variable (Var) to indicate instances of a particular phrase
-export type Var<S,P> ={ type: 'Var', name: string }
+export type Var<S,P> = { type: 'Var', name: string }
 
-type Term<S,P> = NT<S,P> | Let<S,P> | Var<S,P>
+export type Term<S,P> = NT<S,P> | Let<S,P> | Var<S,P>
 
 // The Term data structure has three constructors:
 // 1. NT - a nonterminal that has a symbol and a parameter.
-export const newNT = <S,P>(symbol: S) => (param: P) : Term<S,P> =>
+export const newNT = <S,P>(symbol: S, param: P) : NT<S,P> =>
   ({ type: 'NT', symbol, param })
 // 2. Let - a means of capturing variable instantiation in a Term.
-export const newLet = <S,P>(name: string, value: Sentence<S,P>, expr: Sentence<S,P>) =>
+export const newLet = <S,P>(name: string, value: Sentence<S,P>, expr: Sentence<S,P>) : Let<S,P> =>
   ({ type: 'Let', name, value, expr })
 // 3. Var - a variable
-export const newVar = <S,P>(name: string) =>
+export const newVar = <S,P>(name: string) : Var<S,P> =>
   ({ type: 'Var', name })
 
 // A Sentence is a list of Terms.
-type Sentence<S,P> = Array<Term<S,P>>
+export type Sentence<S,P> = Array<Term<S,P>>
 
 // ## Rules
 
@@ -56,7 +56,7 @@ type RuleFn<S,P> = (P) => Sentence<S,P>
 export type Rule<S,P> = { prob: Prob, symbol: S, fn: RuleFn<S,P> }
 
 // A Rule constructor
-export function newRule<S, P> (prob: Prob, symbol: S, fn: RuleFn<S, P>) : Rule<S, P> {
+export function newRule<S, P> (symbol: S, prob: Prob, fn: RuleFn<S, P>) : Rule<S, P> {
   return { prob, symbol, fn }
 }
 
@@ -85,7 +85,7 @@ export const random : RandFn = () => Math.random()
 // An function to rewrite one Sentence to another using an
 // L-System-like approach to generation where all symbols are updated from left
 // to right.
-export function update<S,P> (rules: Array<Rule<S,P>>, rand: RandFn, sentence: Sentence<S,P>) : Sentence<S,P> {
+export const update = <S,P> (rules: Array<Rule<S,P>>, rand: RandFn, sentence: Sentence<S,P>) : Sentence<S,P> => {
   // Instead of the recursive approach of the original Haskell source code,
   // and since Javascript doesn't fit well to that (no tail optimization, no lazy)
   // we use a more imperative approach (but probably there's a better way):
@@ -119,4 +119,11 @@ const choose = <S,P>(rules: Array<Rule<S,P>>, random: number) : Rule<S,P> => {
   const head = rules[0]
   if (rules.length === 1 || random < head.prob) return head
   else return choose(rules.slice(1), random - head.prob)
+}
+
+// ### User level generation
+
+export const gen = <S,P>(rules: Array<Rule<S,P>>, rand: RandFn, iterations: number, sentence: Sentence<S,P>) : Sentence<S,P> => {
+  while(iterations--) sentence = update(rules, rand, sentence)
+  return sentence
 }

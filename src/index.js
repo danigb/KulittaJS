@@ -18,5 +18,5 @@ export * from './ptgg'
 // #### Music grammar
 // _A grammar alphabet to work with music_
 
-// [source code](music-grammar.html)
-export * from './music-grammar'
+// [source code](music-grammars.html)
+export * from './music-grammars'

@@ -34,23 +34,23 @@
 // a let-in expression (Let) to capture repetition,
                                                                                                
 // or a variable (Var) to indicate instances of a particular phrase
-                                                   
+                                                    
 
-                                              
+                                                     
 
 // The Term data structure has three constructors:
 // 1. NT - a nonterminal that has a symbol and a parameter.
-const newNT =      (symbol   ) => (param   )             =>
+const newNT =      (symbol   , param   )           =>
   ({ type: 'NT', symbol, param });
 // 2. Let - a means of capturing variable instantiation in a Term.
-const newLet =      (name        , value               , expr               ) =>
+const newLet =      (name        , value               , expr               )            =>
   ({ type: 'Let', name, value, expr });
 // 3. Var - a variable
-const newVar =      (name        ) =>
+const newVar =      (name        )            =>
   ({ type: 'Var', name });
 
 // A Sentence is a list of Terms.
-                                     
+                                            
 
 // ## Rules
 
@@ -62,7 +62,7 @@ const newVar =      (name        ) =>
                                                                   
 
 // A Rule constructor
-function newRule       (prob      , symbol   , fn              )              {
+function newRule       (symbol   , prob      , fn              )              {
   return { prob, symbol, fn }
 }
 
@@ -91,7 +91,7 @@ const random          = () => Math.random();
 // An function to rewrite one Sentence to another using an
 // L-System-like approach to generation where all symbols are updated from left
 // to right.
-function update      (rules                  , rand        , sentence               )                 {
+const update =       (rules                  , rand        , sentence               )                 => {
   // Instead of the recursive approach of the original Haskell source code,
   // and since Javascript doesn't fit well to that (no tail optimization, no lazy)
   // we use a more imperative approach (but probably there's a better way):
@@ -104,7 +104,7 @@ function update      (rules                  , rand        , sentence           
     }
   });
   return result
-}
+};
 
 // ### Applying Rules
 
@@ -125,6 +125,13 @@ const choose =      (rules                  , random        )             => {
   const head = rules[0];
   if (rules.length === 1 || random < head.prob) return head
   else return choose(rules.slice(1), random - head.prob)
+};
+
+// ### User level generation
+
+const gen =      (rules                  , rand        , iterations        , sentence               )                 => {
+  while(iterations--) sentence = update(rules, rand, sentence);
+  return sentence
 };
 
 // # Musical Grammar
@@ -163,7 +170,9 @@ const tn       = 1/32;
 
 // _Modes_ include the seven usual derivatives of the C-major scale along with chromatic and custom options. Note that Major=Ionian and Minor=Aeoloean.
                                                                      
-                                                                   
+                                                
+
+// TODO: Find a method to add a scale to Custom mode ['Custom', Array<AbsPitch>]
 
 // A default MP value is one measure long (in 4/4) in the key of C-major.
 const defaultMP      = { dur: 1, mode: 'Major', key: 0, onset: 0, seqDur: 1 };
@@ -206,7 +215,7 @@ const qo4 = compose(q, q4);
 
 // ## Rules
 
-                                  
+                                                
 // The following alter Rules to do a duration test. Each has a
 // "rejection condition" that will be the condition for an ID rule.
 
@@ -215,8 +224,88 @@ const qo4 = compose(q, q4);
 
 function toRelDuration (isValidDur                       , rule                 )                   {
   const { prob, symbol, fn } = rule;
-  return newRule(prob, symbol, (param    ) => fn(param))
+  return newRule(symbol, prob, (param    ) => fn(param))
 }
+
+// TODO: complete this section
+
+// # Mode/key changes
+
+const Major = 'Major';
+const Minor = 'Minor';
+const majModes = [Major, Minor, Minor, Major, Major, Minor, Minor];
+const minModes = [Minor, Minor, Major, Minor, Minor, Major, Major];
+
+const Scales = {
+  Major: [0,2,4,5,7,9,11],
+  Minor: [0,2,3,5,7,8,10],
+  Dorian: [0, 2, 3, 5, 7, 9, 10],
+  Phrygian: [0, 1, 3, 5, 7, 8, 10],
+  Lydian: [0, 2, 4, 6, 7, 9, 11],
+  Mixolydian: [0, 2, 4, 5, 7, 9, 10],
+  Locrian: [0, 1, 3, 5, 6, 8, 10],
+  Chromatic: [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  Custom: null
+};
+
+const getScale = (mode      )                   => {
+  const scale = Scales[mode];
+  if (!scale) throw Error('Scale not defined for mode ' + mode)
+  return scale
+};
+const majScale = getScale('Major');
+const minScale = getScale('Minor');
+
+const modMajMin = (i        ) => (param    )      => {
+  // clone the param
+  const mod = Object.assign({}, param);
+  if (param.mode === 'Major') {
+    mod.mode = majModes[i];
+    mod.key = (param.key + majScale[i]) % 12;
+  } else {
+    mod.mode = minModes[i];
+    mod.key = (param.key + minScale[i]) % 12;
+  }
+  return mod
+};
+
+// Basic modulations on scale degrees for Major and Minor systems
+const m2 = modMajMin(1);
+const m3 = modMajMin(2);
+const m4 = modMajMin(3);
+const m5 = modMajMin(4);
+const m6 = modMajMin(5);
+const m7 = modMajMin(6);
+
+// # Progression symbols
+
+// P = {piece, P}
+// R = {TR, SR, DR} functional region symbols
+// K = {Cmaj, Cmin, ...} key symbols
+// F = {t, s, d, tp, sp, dp, tcp} functional term symbols
+// S = {I, II, ...} scale degree chord representations
+// O = {Cmaj, ...} surface chord symbols (e.g. I in K=Cmaj)
+
+                                                                                                     
+                                                               
+
+// ## TSD Grammar base
+
+const T = (p     )                 => newNT('T', p);
+const S = (p     )                 => newNT('S', p);
+const D = (p     )                 => newNT('D', p);
+
+const tdsRules                          = [
+  newRule('T', 0.25, (p) => [ T(p) ]),
+  newRule('T', 0.25, (p) => [ T(h(p)), T(h(p)) ]),
+  newRule('T', 0.25, (p) => [ T(h(p)), D(h(p)) ]),
+  newRule('T', 0.25, (p) => [ D(h(p)), T(h(p)) ]),
+  newRule('D', 0.33, (p) => [ D(p) ]),
+  newRule('D', 0.33, (p) => [ D(h(p)), D(h(p)) ]),
+  newRule('D', 0.34, (p) => [ S(h(p)), D(h(p)) ]),
+  newRule('S', 0.5, (p) => [ S(p) ]),
+  newRule('S', 0.5, (p) => [ S(h(p)), S(h(p)) ])
+];
 
 // # KulittaJS
 // This is a port of some parts of [Kulitta](https://github.com/donya/Kulitta) to Javascript (with the help of [flow](https://flowtype.org))
@@ -240,6 +329,7 @@ exports.newVar = newVar;
 exports.newRule = newRule;
 exports.random = random;
 exports.update = update;
+exports.gen = gen;
 exports.wn = wn;
 exports.hn = hn;
 exports.qn = qn;
@@ -260,6 +350,16 @@ exports.qo2 = qo2;
 exports.qo3 = qo3;
 exports.qo4 = qo4;
 exports.toRelDuration = toRelDuration;
+exports.m2 = m2;
+exports.m3 = m3;
+exports.m4 = m4;
+exports.m5 = m5;
+exports.m6 = m6;
+exports.m7 = m7;
+exports.T = T;
+exports.S = S;
+exports.D = D;
+exports.tdsRules = tdsRules;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
