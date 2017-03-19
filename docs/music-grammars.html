@@ -557,6 +557,212 @@ O = {Cmaj, …} surface chord symbols (e.g. I in K=Cmaj)</p>
             
         </li>
         
+        
+        <li id="section-30">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-30">&#182;</a>
+              </div>
+              <h2 id="roman-numeral-grammar-base">Roman Numeral Grammar Base</h2>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+<span class="hljs-keyword">const</span> rn = <span class="hljs-function">(<span class="hljs-params">ct: CType</span>) =&gt;</span> (p: MP) : NT&lt;CType, MP&gt; =&gt; newNT(ct, p)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> I = rn(<span class="hljs-string">'I'</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> II = rn(<span class="hljs-string">'II'</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> III = rn(<span class="hljs-string">'III'</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> IV = rn(<span class="hljs-string">'IV'</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> V = rn(<span class="hljs-string">'V'</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> VI = rn(<span class="hljs-string">'VI'</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> VII = rn(<span class="hljs-string">'VII'</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-31">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-31">&#182;</a>
+              </div>
+              <p>Grammar from dissertation chapter 4, table 4.2 with optional let
+statements added.</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-32">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-32">&#182;</a>
+              </div>
+              <p>given a p, map the chords from the array to that p</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">const</span> seq = <span class="hljs-function">(<span class="hljs-params">mods, ctypes, p</span>) =&gt;</span> ctypes.map(<span class="hljs-function">(<span class="hljs-params">ctype, i</span>) =&gt;</span> ctype(mods[i % mods.length](p)))</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-33">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-33">&#182;</a>
+              </div>
+              <blockquote>
+<p>rRules1 :: Dur -&gt; Bool -&gt; [Rule CType MP]
+rRules1 minDur useLets = normalize $ map (toRelDur2 (&lt;minDur)) ([</p>
+</blockquote>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> rRules = [</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-34">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-34">&#182;</a>
+              </div>
+              <p>– Rules for I –
+(I, 0.187) :-&gt; \p -&gt; [(if isMaj p then ii else iv) (q p), v (q p), i (h p)],</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  newRule(<span class="hljs-string">'I'</span>, <span class="hljs-number">0.187</span>, p =&gt; seq([q, q, h], [ isMaj(p) ? II : IV, V, I ], p)),</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-35">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-35">&#182;</a>
+              </div>
+              <p>(I, 0.187) :-&gt; \p -&gt; map ($ q p) [i, iv, v, i],</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  newRule(<span class="hljs-string">'I'</span>, <span class="hljs-number">0.187</span>, p =&gt; seq([q], [ I, IV, V, I ], p)),</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-36">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-36">&#182;</a>
+              </div>
+              <p>(I, 0.187) :-&gt; \p -&gt; [v (h p), i (h p)],</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  newRule(<span class="hljs-string">'I'</span>, <span class="hljs-number">0.187</span>, p =&gt; seq([h], [ V, I ], p)),</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-37">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-37">&#182;</a>
+              </div>
+              <p>(I, 0.187) :-&gt; \p -&gt; map ($ q p) $ [i, if isMaj p then ii else iv, v, i],</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  newRule(<span class="hljs-string">'I'</span>, <span class="hljs-number">0.187</span>, p =&gt; seq([q], [ I, isMaj(p) ? II : IV, V, I ], p)),</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-38">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-38">&#182;</a>
+              </div>
+              <p>(I, 0.252) :-&gt; \p -&gt; [i p],</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  newRule(<span class="hljs-string">'I'</span>, <span class="hljs-number">0.252</span>, p =&gt; [ I(p) ]),</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-39">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-39">&#182;</a>
+              </div>
+              <p>– Rules for II –
+(II, 0.40) :-&gt; \p -&gt; if isMaj p then [ii p] else [iv p],</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  newRule(<span class="hljs-string">'II'</span>, <span class="hljs-number">0.40</span>, p =&gt; [ isMaj(p) ? II(p) : IV(p) ]),</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-40">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-40">&#182;</a>
+              </div>
+              <p>(II, 0.40) :-&gt; \p -&gt; if isMaj p then (if dur p &gt; qn then [ii p] else [i (m2 p)]) else [ii p],
+newRule(‘II’, 0.40, p =&gt; isMap(p) ? [ p.dur &gt; qn ? II(p) : I(m2(p) ] : [ II(p) ]))
+(II, 0.20) :-&gt; \p -&gt; map ($ h p) $ if isMaj p then [vi, ii] else [vi, iv],
+– Rules for III–
+(III, 0.90) :-&gt; \p -&gt; [iii p],
+(III, 0.10) :-&gt; \p -&gt; [i $ m3 p],
+– Rules for IV –
+(IV, 0.90) :-&gt; \p -&gt; [iv p],
+(IV, 0.10) :-&gt; \p -&gt; [i $ m4 p],
+– Rules for V –
+(V, 0.10) :-&gt; \p -&gt; [v p],
+(V, 0.15) :-&gt; \p -&gt; [iv (h p), v (h p)],
+(V, 0.10) :-&gt; \p -&gt; [iii (h p), vi (h p)],
+(V, 0.10) :-&gt; \p -&gt; map ($ q p) [i, iii, vi, v],
+(V, 0.10) :-&gt; \p -&gt; map ($ q p) [v, vi, vii, v],
+(V, 0.10) :-&gt; \p -&gt; [v (h p), vi (h p)],
+(V, 0.10) :-&gt; \p -&gt; [iii p],
+(V, 0.05) :-&gt; \p -&gt; [v (h p), v (h p)],
+(V, 0.10) :-&gt; \p -&gt; [vii (h p), v (h p)],
+(V, 0.10) :-&gt; \p -&gt; [i $ m5 p],
+– Rules for VI –
+(VI, 0.70) :-&gt; \p -&gt; [vi p],
+(VI, 0.30) :-&gt; \p -&gt; [i $ m6 p],
+– Rules for VII –
+(VII, 0.50) :-&gt; \p -&gt; if dur p &gt; qn then [vii p] else [i $ m7 p],
+(VII, 0.50) :-&gt; \p -&gt; [i (h p), iii (h p)]
+] ++ if useLets then letRules else []) where
+letRules = concatMap (\ct -&gt; [letRule1 ct, letRule2 ct]) (enumFrom I)
+letRule1 ct = (ct, 0.1) :-&gt; \p -&gt; [Let “x” [NT(ct, h p)] [Var “x”, Var “x”]]
+letRule2 ct = (ct, 0.1) :-&gt; \p -&gt; [Let “x” [NT(ct, q p)] [Var “x”, v (h p), Var “x”]]</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>]</pre></div></div>
+            
+        </li>
+        
     </ul>
   </div>
 </body>

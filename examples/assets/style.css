@@ -26,9 +26,15 @@ button {
 
 .Sequence .term {
   float: left;
-  text-align: center;
   padding: 1em 0;
 }
 .Sequence .term-T { background-color: #F7EBE8; }
 .Sequence .term-S { background-color: #FFA987; }
 .Sequence .term-D { background-color: #E54B4B; }
+.term-I { background-color: #EEE; }
+.term-II { background-color: #DDD; }
+.term-III { background-color: #CCC; }
+.term-IV { background-color: #BBB; }
+.term-V { background-color: #AAA; }
+.term-VI { background-color: #888; }
+.term-VII { background-color: #777; }

@@ -172,3 +172,69 @@ export const tdsRules : Array<Rule<RTerm, MP>> = [
   newRule('S', 0.5, (p) => [ S(p) ]),
   newRule('S', 0.5, (p) => [ S(h(p)), S(h(p)) ])
 ]
+
+// ## Roman Numeral Grammar Base
+
+const rn = (ct: CType) => (p: MP) : NT<CType, MP> => newNT(ct, p)
+export const I = rn('I')
+export const II = rn('II')
+export const III = rn('III')
+export const IV = rn('IV')
+export const V = rn('V')
+export const VI = rn('VI')
+export const VII = rn('VII')
+
+// Grammar from dissertation chapter 4, table 4.2 with optional let
+// statements added.
+
+// given a p, map the chords from the array to that p
+const seq = (mods, ctypes, p) => ctypes.map((ctype, i) => ctype(mods[i % mods.length](p)))
+
+// > rRules1 :: Dur -> Bool -> [Rule CType MP]
+// > rRules1 minDur useLets = normalize $ map (toRelDur2 (<minDur)) ([
+export const rRules = [
+  // -- Rules for I --
+  // (I, 0.187) :-> \p -> [(if isMaj p then ii else iv) (q p), v (q p), i (h p)],
+  newRule('I', 0.187, p => seq([q, q, h], [ isMaj(p) ? II : IV, V, I ], p)),
+  // (I, 0.187) :-> \p -> map ($ q p) [i, iv, v, i],
+  newRule('I', 0.187, p => seq([q], [ I, IV, V, I ], p)),
+  // (I, 0.187) :-> \p -> [v (h p), i (h p)],
+  newRule('I', 0.187, p => seq([h], [ V, I ], p)),
+  // (I, 0.187) :-> \p -> map ($ q p) $ [i, if isMaj p then ii else iv, v, i],
+  newRule('I', 0.187, p => seq([q], [ I, isMaj(p) ? II : IV, V, I ], p)),
+  // (I, 0.252) :-> \p -> [i p],
+  newRule('I', 0.252, p => [ I(p) ]),
+  // -- Rules for II --
+  // (II, 0.40) :-> \p -> if isMaj p then [ii p] else [iv p],
+  newRule('II', 0.40, p => [ isMaj(p) ? II(p) : IV(p) ]),
+  // (II, 0.40) :-> \p -> if isMaj p then (if dur p > qn then [ii p] else [i (m2 p)]) else [ii p],
+  // newRule('II', 0.40, p => isMap(p) ? [ p.dur > qn ? II(p) : I(m2(p) ] : [ II(p) ]))
+  // (II, 0.20) :-> \p -> map ($ h p) $ if isMaj p then [vi, ii] else [vi, iv],
+  // -- Rules for III--
+  // (III, 0.90) :-> \p -> [iii p],
+  // (III, 0.10) :-> \p -> [i $ m3 p],
+  // -- Rules for IV --
+  // (IV, 0.90) :-> \p -> [iv p],
+  // (IV, 0.10) :-> \p -> [i $ m4 p],
+  // -- Rules for V --
+  // (V, 0.10) :-> \p -> [v p],
+  // (V, 0.15) :-> \p -> [iv (h p), v (h p)],
+  // (V, 0.10) :-> \p -> [iii (h p), vi (h p)],
+  // (V, 0.10) :-> \p -> map ($ q p) [i, iii, vi, v],
+  // (V, 0.10) :-> \p -> map ($ q p) [v, vi, vii, v],
+  // (V, 0.10) :-> \p -> [v (h p), vi (h p)],
+  // (V, 0.10) :-> \p -> [iii p],
+  // (V, 0.05) :-> \p -> [v (h p), v (h p)],
+  // (V, 0.10) :-> \p -> [vii (h p), v (h p)],
+  // (V, 0.10) :-> \p -> [i $ m5 p],
+  // -- Rules for VI --
+  // (VI, 0.70) :-> \p -> [vi p],
+  // (VI, 0.30) :-> \p -> [i $ m6 p],
+  // -- Rules for VII --
+  // (VII, 0.50) :-> \p -> if dur p > qn then [vii p] else [i $ m7 p],
+  // (VII, 0.50) :-> \p -> [i (h p), iii (h p)]
+  // ] ++ if useLets then letRules else []) where
+  // letRules = concatMap (\ct -> [letRule1 ct, letRule2 ct]) (enumFrom I)
+  // letRule1 ct = (ct, 0.1) :-> \p -> [Let "x" [NT(ct, h p)] [Var "x", Var "x"]]
+  // letRule2 ct = (ct, 0.1) :-> \p -> [Let "x" [NT(ct, q p)] [Var "x", v (h p), Var "x"]]
+]

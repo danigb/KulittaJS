@@ -1,3 +1,4 @@
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
 	typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -438,4 +439,41 @@ exports.rRules = rRules;
 Object.defineProperty(exports, '__esModule', { value: true });
 
 })));
-//# sourceMappingURL=kulitta.js.map
+
+
+},{}],2:[function(require,module,exports){
+/* global d3 */
+const { update, random, defaultMP, I, rRules } = require('../')
+
+const initial = [ I(defaultMP) ]
+const model = [ initial ]
+
+console.log(initial, rRules)
+const generate = () => {
+  const last = model[model.length - 1]
+  const next = update(rRules, random, last)
+  model.push(next)
+}
+
+const paint = () => {
+  d3.select('#sequences')
+    .selectAll('div')
+    .data(model)
+    .enter().append('div')
+      .classed('Sequence', true)
+      .selectAll('span')
+      .data((d) => d)
+      .enter().append('span')
+        .attr('class', d => 'term term-' + d.symbol)
+        .style('width', d => '' + 100 * d.param.dur + '%')
+        .text(d => d.symbol)
+}
+
+window.onclick = () => {
+  generate()
+  paint()
+}
+
+paint()
+
+},{"../":1}]},{},[2]);

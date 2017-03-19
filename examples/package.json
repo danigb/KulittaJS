@@ -5,7 +5,7 @@
   "description": "",
   "main": "tsd.js",
   "scripts": {
-    "tsd": "watchify tsd.js -o assets/tsd.bundle.js",
+    "grammars": "watchify grammars.js -o assets/grammars.bundle.js",
     "publish": "cp assets/* ../docs/demo"
   },
   "keywords": [],
