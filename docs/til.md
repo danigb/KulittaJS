@@ -49,6 +49,11 @@ const clone = (p : MP) : MP => Object.assign({}, p)
 
 https://flowtype.org/blog/2015/02/18/Import-Types.html
 
+
+```js
+import type Rule from './ptgg'
+```
+
 #### 6. null annotation
 
 https://flowtype.org/docs/nullable-types.html#type-annotating-null
@@ -86,11 +91,10 @@ https://github.com/facebook/flow/issues/3386#issuecomment-279929684:
 
 http://sitr.us/2015/05/31/advanced-features-in-flow.html#existential-types
 
+#### 8. Beware the arrows
 
+`() => () =>` is not always clear...
 
-```js
-import type Rule from './ptgg'
-```
 
 ## Haskell (and fp)
 
@@ -115,3 +119,9 @@ map :: (a -> b) -> ([a] -> [b])
 ```
 
 ## Kulitta
+
+## D3
+
+#### 1. Nested selections
+
+https://bost.ocks.org/mike/nest/

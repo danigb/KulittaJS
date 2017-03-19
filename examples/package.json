@@ -1,0 +1,14 @@
+{
+  "name": "examples",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "main": "tsd.js",
+  "scripts": {
+    "tsd": "watchify tsd.js -o assets/tsd.bundle.js",
+    "publish": "cp assets/* ../docs/demo"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

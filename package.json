@@ -1,6 +1,7 @@
 {
-  "name": "PTGG",
-  "version": "1.0.0",
+  "name": "kulitta",
+  "version": "0.0.1",
+  "private": true,
   "description": "",
   "main": "dist/kulitta.js",
   "module": "src/index.js",
@@ -13,14 +14,18 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "",
   "devDependencies": {
     "flow-bin": "^0.42.0",
+    "hyperapp": "^0.7.1",
+    "hyperx": "^2.3.0",
     "rollup": "^0.41.6",
     "rollup-plugin-flow": "^1.1.1",
     "rollup-plugin-uglify": "^1.0.1"
   },
   "standard": {
-    "ignore": ["src/*"]
+    "ignore": [
+      "src/*"
+    ]
   }
 }
